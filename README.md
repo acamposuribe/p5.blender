@@ -5,7 +5,7 @@ This shader applies Spectral.js (https://github.com/rvanwijnen/spectral.js) by R
 It allows for fast and realistic color-blending, using the basic p5js functions.
 
 # Usage
-After adding the p5.blender.js to your html file:
+After adding the p5.blend.js to your html file:
 
 - Use blender.color(r,g,b,a) to set the color and alpha of the following shapes
 - Draw normally

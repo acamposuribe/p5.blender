@@ -56,7 +56,7 @@
     // PIGMENT FUNCTIONS
     let pigment;
     let isBlending = false;
-    function _blend(r, g, b, a) {
+    function _color(r, g, b, a) {
         if (!_r) {_load()}
         if (isBlending) {_noBlend()}
         if (!isBlending) {
@@ -123,7 +123,7 @@
     // EXPORTS
     exports.load = _load;
     exports.noBlend = _noBlend;
-    exports.blend = _blend;
+    exports.color = _color;
 
 
 //  Shader From Spectral.js: https://github.com/rvanwijnen/spectral.js

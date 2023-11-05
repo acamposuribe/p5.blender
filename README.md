@@ -4,6 +4,7 @@ Simple library that applies Spectral.js to p5js for realistic color-mixing
 This shader applies Spectral.js (https://github.com/rvanwijnen/spectral.js) by Ronald van Wijnen to p5js, via a mask shader.
 It allows for fast and realistic color-blending, using the basic p5js functions.
 
+
 # Usage
 After adding the p5.blend.js to your html file:
 
@@ -14,5 +15,20 @@ After adding the p5.blend.js to your html file:
 
   Example: https://editor.p5js.org/acamposuribe/sketches/VF5GV7vH7
 
-# Functioning and Limitations
-Each time the color() function is called, the library will apply a shader. In order to make it more performant, try to change color sparingly, grouping the shapes by color.
+
+# Functions
+
+blender.load(buffer)
+  Use load() to load the mixer in selected buffers. Execute the function each time you want to change buffers.
+
+blender.color()
+  With two arguments (color, alpha) - use HEX code, [r,g,b] array, or p5.color objct
+  With three arguments (r,g,b) - alpha will be 1.0 (full blend)
+  With four arguments (r,g,b,alpha)
+
+blender.stop()
+  Use stop() when you want to stop blending and change to normal p5 mode.
+
+
+# Limitations
+Each time the color() function is called, the library will apply a shader. In order to make it more performant, try to change colors sparingly, grouping the shapes accordingly.

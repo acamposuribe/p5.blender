@@ -1,8 +1,7 @@
 function setup() {
     createCanvas(400,400,WEBGL) // Canvas needs to be WEBGL
-    background(220)
-    noStroke()
-    
+    background(240)
+
     // Execute blender.blend to set color and alpha
     // You can also do (r,g,b,a)
     blender.color("#002185", 100)

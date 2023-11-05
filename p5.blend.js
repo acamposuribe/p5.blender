@@ -44,13 +44,23 @@
         return matrix;
     }
     // Keep track of stroke and fill values
-    let _doStroke, _doFill, _strokeWeight, _strokeCap, _strokeJoin;
+    let _doStroke, _doFill, _strokeWeight, _strokeCap, _strokeJoin, _rectMode, _ellipseMode;
     function _refresh() {
         _doStroke = _r._renderer._doStroke
         _doFill = _r._renderer._doFill
         _strokeWeight = _r._renderer.curStrokeWeight
         _strokeCap = _r._renderer.curStrokeCap
         _strokeJoin = _r._renderer.curStrokeJoin
+        _rectMode = _r._renderer._rectMode
+        _ellipseMode = _r._renderer._ellipseMode
+    }
+    // Set attributs if they are not the same
+    function _setThings() {
+        if(_renderer.curStrokeWeight !== _strokeWeight) strokeWeight(_strokeWeight);
+        if(_renderer.curStrokeCap !== _strokeCap) strokeCap(_strokeCap);
+        if(_renderer.curStrokeJoin !== _strokeJoin) strokeJoin(_strokeJoin)
+        if(_renderer._rectMode !== _rectMode) rectMode(_rectMode)
+        if(_renderer._ellipseMode !== _ellipseMode) ellipseMode(_ellipseMode)
     }
     //////////////////////////////////////////////////
     // PIGMENT FUNCTIONS
@@ -67,22 +77,22 @@
             push()
             translate(matrix[0],matrix[1],matrix[2])          
             _doFill ? fill(255,0,0,alpha) : noFill()
-            if (_doStroke) {
-                stroke(255,0,0,alpha)
-                if(_renderer.curStrokeWeight !== _strokeWeight) strokeWeight(_strokeWeight);
-                if(_renderer.curStrokeCap !== _strokeCap) strokeCap(_strokeCap);
-                if(_renderer.curStrokeJoin !== _strokeJoin) strokeJoin(_strokeJoin)
-            } else {noStroke()}
+            _setThings();
+            if (_doStroke) {stroke(255,0,0,alpha)} else {noStroke()}
             isBlending = true;
         }
     }
     function _noBlend() {
-        _refresh();
-        pop()
-        Mix.mask.end()
-        Mix.blend(pigment)
-        isBlending = false
+        if (isBlending) {
+            _refresh();
+            pop()
+            Mix.mask.end()
+            Mix.blend(pigment)
+            isBlending = false
+        }
     }
+    p5.prototype.registerMethod('afterSetup', _noBlend());
+    p5.prototype.registerMethod('post', _noBlend());
     //////////////////////////////////////////////////
     // COLOR-MIX FUNCTIONS (Using Spectral.js)
     const Mix = {
@@ -115,9 +125,28 @@
             _r.pop();
         },
         vert: `precision highp float;attribute vec3 aPosition;attribute vec2 aTexCoord;uniform mat4 uModelViewMatrix,uProjectionMatrix;varying vec2 vVertTexCoord;void main(){gl_Position=uProjectionMatrix*uModelViewMatrix*vec4(aPosition,1);vVertTexCoord=aTexCoord;}`,
-        frag: `precision highp float;varying vec2 vVertTexCoord;uniform sampler2D source,mask;uniform vec4 addColor;
+        frag: `precision highp float;varying vec2 vVertTexCoord;
+        uniform sampler2D source;
+        uniform sampler2D mask;
+        uniform vec4 addColor;
         #include "spectral.glsl"
-        void main(){vec4 v=texture2D(mask,vVertTexCoord);if(v.x>0.){vec3 r=spectral_mix(vec3(texture2D(source,vVertTexCoord)),vec3(addColor.x/255.,addColor.y/255.,addColor.z/255.),v.w);gl_FragColor=vec4(r.xyz,1);}else gl_FragColor=vec4(0);}`
+
+        vec3 rgb(float r, float g, float b){return vec3(r / 255.0, g / 255.0, b / 255.0);}
+
+        void main() {
+            vec4 maskColor = texture2D(mask, vVertTexCoord);
+            if (maskColor.r > 0.0) {
+                vec4 canvasColor = texture2D(source, vVertTexCoord);
+                if (canvasColor == vec4(0.0,0.0,0.0,0.0)) {
+                    canvasColor = vec4(1.0,1.0,1.0,1.0);
+                }
+                vec3 mixedColor = spectral_mix(vec3(canvasColor.r,canvasColor.g,canvasColor.b), rgb(addColor.r,addColor.g,addColor.b), maskColor.a);
+                gl_FragColor = vec4(mixedColor.r, mixedColor.g, mixedColor.b, 1.0);
+            }
+            else {
+                gl_FragColor = vec4(0.0,0.0,0.0,0.0);
+            }
+        }`
     }
     //////////////////////////////////////////////////
     // EXPORTS

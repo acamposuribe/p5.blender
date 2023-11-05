@@ -1,5 +1,5 @@
 # p5.blender
-Simple library that applies Spectral.js to p5js for realistic color-mixing
+Simple p5js library for realistic color-mixing. Blue + Yellow is finally Green.
 
 This shader applies Spectral.js (https://github.com/rvanwijnen/spectral.js) by Ronald van Wijnen to p5js, via a mask shader.
 It allows for fast and realistic color-blending, using the basic p5js functions.

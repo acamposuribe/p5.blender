@@ -91,8 +91,8 @@
             isBlending = false
         }
     }
-    p5.prototype.registerMethod('afterSetup', _noBlend());
-    p5.prototype.registerMethod('post', _noBlend());
+    p5.prototype.registerMethod('afterSetup', () => _noBlend());
+    p5.prototype.registerMethod('post', () => _noBlend());
     //////////////////////////////////////////////////
     // COLOR-MIX FUNCTIONS (Using Spectral.js)
     const Mix = {

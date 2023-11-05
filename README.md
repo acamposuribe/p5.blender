@@ -8,6 +8,7 @@ It allows fast and realistic color-blending, using the basic p5js functions.
 # Usage
 After adding the p5.blend.js to your html file:
 
+- Create a WEBGL canvas.
 - Use blender.color(r,g,b,a) to set the color and alpha of the following shapes
 - Draw normally
 - Use blender.color(r,g,b,a) again when you want to change the color

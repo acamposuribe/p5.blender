@@ -9,7 +9,4 @@ function setup() {
     
     blender.color("#fcd300", 100)
     rect(-50,-50,200,200)
-
-    // Execute this function when you are done mixing, and want to go back to normal colors/lines
-    blender.noBlend()
 }

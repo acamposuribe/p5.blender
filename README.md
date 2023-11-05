@@ -18,16 +18,23 @@ After adding the p5.blend.js to your html file:
 
 # Functions
 
-blender.load(buffer)
-  Use load() to load the mixer in selected buffers. Execute the function each time you want to change buffers.
+- blender.load(buffer)
 
-blender.color()
-  With two arguments (color, alpha) - use HEX code, [r,g,b] array, or p5.color objct
-  With three arguments (r,g,b) - alpha will be 1.0 (full blend)
+  Use load() to load the mixer in selected buffers. Execute the function each time you want to change to said buffer.
+  
+
+- blender.color()
+
+  With two arguments (color, alpha) - use HEX code, [r,g,b] array, or p5.color objct.
+
+  With three arguments (r,g,b) - alpha will be 1.0 (full blend).
+
   With four arguments (r,g,b,alpha)
+  
 
-blender.stop()
-  Use stop() when you want to stop blending and change to normal p5 mode.
+- blender.noBlend()
+
+  Use noBlend() when you want to stop blending and change to normal p5 mode.
 
 
 # Limitations

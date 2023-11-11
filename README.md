@@ -1,8 +1,12 @@
+![Teaser by @LukaPiskorec](/images/blender.gif)
+
 # p5.blender
 
 `p5.blender` is a simple yet powerful p5.js library designed for realistic color mixing in web graphics. By integrating [Spectral.js](https://github.com/rvanwijnen/spectral.js) by Ronald van Wijnen into p5.js, it overcomes traditional RGB limitations, allowing for more natural color blends – for instance, mixing blue and yellow to make green.
 
 This library utilizes a shader approach for color blending and is optimized for performance and ease of use within the p5.js environment.
+
+(teaser gif by @LukaPiskorec)
 
 ## Features
 
